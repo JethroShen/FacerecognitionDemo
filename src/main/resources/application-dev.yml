@@ -1,0 +1,37 @@
+server:
+  port: 9119
+
+# JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB  # 单个文件大小
+      max-request-size: 100MB  # 设置总上传的数据大小
+      enabled: true #开启
+
+# swagger开关
+swagger:
+  enabled:  true
+  info:
+    basePackage:  com.jethro.controller
+    title: 发布控制服务
+    desc: 发布控制服务
+    termsOfServiceUrl: http://127.0.0.1:${server.port}/
+    version: 1.0
+    contact:
+        name: 发布控制服务
+        url: http://127.0.0.1:${server.port}/swagger-ui.html
+        email:
+
+
+ai:
+  appId: 16868014
+  apiKey: cNL95DZe0c3OTW5zGHa4rF93
+  secretKey: tN9nZPvdwIOYHCZWhxcIkeB4B6mGYms9
+  imageType: BASE64
+  groupId: jethro
+
+
+
+
+
