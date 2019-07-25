@@ -43,6 +43,7 @@ public class FaceRecognitionController {
             return ResponseVO.build().setCode(500).setMessage("人脸识别失败!");
         }
 
+
         // 人脸注册
         Boolean flag = faceRecognitionService.register(image, userId);
         if (flag) {
