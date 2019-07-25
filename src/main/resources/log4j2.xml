@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF" monitorInterval="1800" >
+    <properties>
+        <property name="LOG_HOME">/logs/deploy-control</property>
+        <property name="ERROR_LOG_FILE_NAME">error</property>
+        <Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} | %-4r | [%t] | %-5level | %c:%L| [%X{requestId}] | - %msg%xEx%n</Property>
+    </properties>
+
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+        <!--  临时测试用 -->
+        <File name="log" fileName="${LOG_HOME}/log_file.log" append="false">
+            <PatternLayout pattern="${PATTERN}"/>
+        </File>
+        <RollingFile name="ErrorRollingFile" fileName="${LOG_HOME}/error.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}" />
+            <SizeBasedTriggeringPolicy size="10MB" />
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+        <!-- warn msg -->
+        <RollingFile name="WarnRollingFile" fileName="${LOG_HOME}/warn.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}" />
+            <SizeBasedTriggeringPolicy size="10MB" />
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+        <!-- error<info msg -->
+        <RollingFile name="InfoRollingFile" fileName="${LOG_HOME}/info.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}" />
+            <SizeBasedTriggeringPolicy size="10MB" />
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+        <!-- debug msg -->
+        <RollingFile name="DebugRollingFile" fileName="${LOG_HOME}/debug.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}" />
+            <SizeBasedTriggeringPolicy size="10MB" />
+            <Filters>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+        <!-- trace msg -->
+        <RollingFile name="TraceRollingFile" fileName="${LOG_HOME}/trace.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/trace-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}" />
+            <SizeBasedTriggeringPolicy size="10MB" />
+            <Filters>
+                <ThresholdFilter level="debug" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+    </appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <Logger name="org.apache.commons.beanutils.converters" level="WARN" />
+        <Logger name="org.dozer" level="WARN" />
+        <Logger name="org.springframework" level="WARN" />
+        <Logger name="org.eclipse.jetty" level="WARN" />
+        <logger name="org.mybatis" level="WARN" />
+        <logger name="org.apache.http" level="WARN" />
+        <logger name="org.eclipse.jetty.io" level="WARN" />
+        <logger name="org.hibernate.validator" level="WARN" />
+        <logger name="springfox.documentation" level="WARN" />
+        <logger name="org.apache.ibatis.io.ResolverUtil" level="WARN" />
+
+        <asyncRoot level="DEBUG">
+            <!-- 控制台 -->
+            <appender-ref ref="Console" />
+            <appender-ref ref="ErrorRollingFile" />
+            <appender-ref ref="WarnRollingFile" />
+            <appender-ref ref="InfoRollingFile" />
+            <appender-ref ref="DebugRollingFile" />
+            <appender-ref ref="TraceRollingFile" />
+        </asyncRoot>
+    </loggers>
+</configuration>

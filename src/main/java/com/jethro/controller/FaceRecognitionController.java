@@ -30,6 +30,7 @@ public class FaceRecognitionController {
 
     @ApiOperation(value = "上传人脸照片进行注册")
     @PostMapping("/registerPic")
+    @CrossOrigin
     public ResponseVO registerPic(@RequestParam("file") MultipartFile file) throws IOException {
 
 
@@ -81,6 +82,7 @@ public class FaceRecognitionController {
 
     @ApiOperation(value = "上传人脸照片进行登录")
     @PostMapping("/login")
+    @CrossOrigin
     public ResponseVO checkPic(@RequestParam("file") MultipartFile file) throws IOException {
 
         byte[] bytes = file.getBytes();
